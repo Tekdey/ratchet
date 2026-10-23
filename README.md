@@ -51,9 +51,54 @@ npx degit Tekdey/ratchet/template ratchet-template
 
 Then fill `ratchet.config.json` (your definition of done commands and your risk tiers), write your first ADRs in `spec/adr/`, and start a session with `/resume`. Step-by-step instructions, including adoption on an existing codebase, are in [`docs/adoption.md`](docs/adoption.md).
 
-## Planned with another method?
+## From zero to running
 
-Ratchet executes; it does not help much with writing the specification. Plan with the BMad Method, GitHub Spec Kit or your own documents, then run the skill `import-plan`: an agent converts the plan into `spec/` without inventing anything, imported ADRs stay proposed until you accept them, and `check-spec.mjs` validates the result. See [`docs/planning-handoff.md`](docs/planning-handoff.md).
+Ratchet executes; it does not help much with writing the specification. A typical project plans with another method, then hands over to Ratchet. You do not clone this repository into your project: you copy its `template/` folder once.
+
+**1. Copy the template into the project**
+
+```bash
+npx degit Tekdey/ratchet/template my-project
+cd my-project
+git init
+node .claude/hooks/selftest.mjs
+```
+
+**2. Plan with the method that fits, in the same folder**
+
+- The BMad Method for a product that is still vague (brief, PRD, architecture, epics). It writes to `_bmad-output/planning-artifacts/`.
+- GitHub Spec Kit for a clear set of features (specify, plan, tasks). It writes to `.specify/` and `specs/<NNN-feature>/`.
+- Or your own documents, or Claude Code plan mode for a small change.
+
+**3. Import the plan**
+
+In Claude Code, run `/import-plan`. An agent converts the plan without inventing anything, then `check-spec.mjs` validates the result:
+
+```
+spec/
+  README.md          the product in one page        (from the brief)
+  requirements.md    REQ-001, REQ-002, ...           (from the PRD or spec.md)
+  adr/               ADR-0001, ... status: proposed  (from the architecture or plan.md)
+  iterations/I1.md   I1-T01, I1-T02, ...             (from the epics, stories or tasks.md)
+  archive/           the original documents, kept for history, no longer authoritative
+  escalations.md     "Accept the imported ADRs?"
+```
+
+**4. Decide what is yours to decide**
+
+Read the proposed ADRs and fill the `Decision:` line of the escalation. Fill `ratchet.config.json`: your definition of done commands and your critical paths.
+
+**5. Let it run**
+
+In Claude Code, run `/resume`. Agents take the next unblocked task, implement it, review it, refute the findings, fix, merge, and move on. You follow three files:
+
+- `spec/escalations.md`: what waits for your decision.
+- `spec/decisions-log.md`: what was decided without you.
+- `spec/state.md`: where the run is.
+
+**One trap.** If the planning tool installs its own execution commands (the BMad Method installs about ninety skills, including one that builds features), they compete with Ratchet's workflow when you ask for a feature. Uninstall it after the import and reinstall it for the next planning phase, or keep it for planning only and always execute through `/resume`.
+
+Details: [`docs/planning-handoff.md`](docs/planning-handoff.md) for the import, [`docs/adoption.md`](docs/adoption.md) for existing codebases.
 
 ## What is in this repository
 

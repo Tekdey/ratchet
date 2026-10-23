@@ -9,13 +9,27 @@
 
 ## 1. Copy the template
 
+**New project.** [degit](https://github.com/Rich-Harris/degit) copies the `template/` folder of this repository without its history and without installing anything:
+
 ```bash
-cp -r template/. /path/to/your-project/
-cd /path/to/your-project
+npx degit Tekdey/ratchet/template my-project
+cd my-project
 node .claude/hooks/selftest.mjs
 ```
 
-The selftest runs every guard against known commands and paths and must print `all cases pass`. If your project already has a `.claude/settings.json`, merge the `hooks` and `permissions.deny` sections by hand instead of overwriting the file.
+**Existing project.** Copy the template into a separate folder, then bring its files over by hand:
+
+```bash
+npx degit Tekdey/ratchet/template ratchet-template
+```
+
+- Copy `.claude/agents/`, `.claude/skills/`, `.claude/workflows/`, `.claude/hooks/`, `spec/`, `AGENTS.md` and `ratchet.config.json`, renaming anything that collides with an existing file.
+- If the project already has a `.claude/settings.json`, merge the `hooks` and `permissions.deny` sections into it instead of overwriting it.
+- If it already has a `CLAUDE.md`, add the line `@AGENTS.md` to it instead of replacing it.
+
+Do not use `degit --force` on an existing project: it overwrites files without asking.
+
+In both cases, the selftest runs every guard against known commands and paths and must print `all cases pass`.
 
 Add `.ratchet/` to your `.gitignore`: it holds the guard log and the owner's unlock file, both local.
 

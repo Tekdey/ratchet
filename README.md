@@ -35,10 +35,18 @@ The full rationale, the threat model and the cost model are in [`docs/method.md`
 
 Requirements: [Claude Code](https://code.claude.com), Node.js 20 or later, git, and the GitHub CLI if you use pull requests.
 
+For a new project, one command copies the template (nothing is installed globally):
+
 ```bash
-cp -r template/. /path/to/your-project/
-cd /path/to/your-project
+npx degit Tekdey/ratchet/template my-project
+cd my-project
 node .claude/hooks/selftest.mjs
+```
+
+For an existing project, copy the template next to it first, then merge by hand: a blind copy would overwrite your `.claude/settings.json` and your `CLAUDE.md`.
+
+```bash
+npx degit Tekdey/ratchet/template ratchet-template
 ```
 
 Then fill `ratchet.config.json` (your definition of done commands and your risk tiers), write your first ADRs in `spec/adr/`, and start a session with `/resume`. Step-by-step instructions, including adoption on an existing codebase, are in [`docs/adoption.md`](docs/adoption.md).

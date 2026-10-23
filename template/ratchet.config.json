@@ -1,0 +1,48 @@
+{
+  "paths": {
+    "spec": "spec",
+    "state": "spec/state.md",
+    "decisions": "spec/decisions-log.md",
+    "escalations": "spec/escalations.md",
+    "adrDir": "spec/adr",
+    "iterations": "spec/iterations"
+  },
+  "mainBranch": "main",
+  "definitionOfDone": ["npm ci", "npm run lint", "npm run typecheck", "npm test", "npm run build"],
+  "remoteCiRequired": false,
+  "tiers": {
+    "critical": [
+      ".claude/**",
+      "ratchet.config.json",
+      "spec/adr/**",
+      "**/auth/**",
+      "**/security/**",
+      "**/migrations/**",
+      "**/permissions/**"
+    ],
+    "low": ["**/*.md", "docs/**", "**/*.test.*", "**/__fixtures__/**"]
+  },
+  "review": {
+    "maxFixRounds": 3
+  },
+  "reservedDecisions": [
+    "purchases and paid services",
+    "publication of a major version",
+    "deletion of user data or of audit history",
+    "change of licence, name, prices or telemetry policy",
+    "public announcements"
+  ],
+  "guards": {
+    "forbiddenCommands": [],
+    "secretDirs": [],
+    "protectedPaths": [".claude/hooks/**", ".claude/settings.json", "ratchet.config.json"]
+  },
+  "sessionStart": {
+    "stateLines": 60,
+    "reminders": [
+      "Accepted ADRs are immutable: propose a new one.",
+      "Decide and log in the decision log; reserved decisions go to escalations.",
+      "Never ask the human in the conversation."
+    ]
+  }
+}

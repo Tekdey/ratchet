@@ -13,4 +13,5 @@ Thank you for considering a contribution. Ratchet is a research release; the mos
 - Every rule added to a guard comes with selftest cases: at least one blocked command and one allowed look-alike.
 - Changes to the method in `docs/method.md` that alter the template update the template in the same pull request, and the other way round. The case study showed what happens when a method and its scripts drift apart.
 - Keep prose plain: short sentences, no marketing language, claims marked as measured or argued.
-- Run `node template/.claude/hooks/selftest.mjs` before opening a pull request.
+- Run `node template/.claude/hooks/selftest.mjs` and `node template/.claude/scripts/check-spec-selftest.mjs` before opening a pull request.
+- Write in American English.

@@ -12,9 +12,9 @@ You implement one task. You work alone in a dedicated git worktree and deliver a
 1. Read the task block in the current iteration file, every requirement and ADR it cites, `spec/decisions-log.md` and `spec/state.md`.
 2. Create the worktree: `git fetch origin && git worktree add .worktrees/<branch> -b <branch> origin/<main branch>`, with `<branch>` = `i<N>-t<NN>-<slug>`. Work only inside it.
 3. Verify every external fact you depend on (API shape, tool version, schema) against official documentation (skill `verify-facts`). If the specification is wrong, log it (skill `log-decision`), take the simplest option compatible with the accepted ADRs, and continue.
-4. Write the tests first when the behaviour is specified. Name tests by behaviour.
+4. Write the tests first when the behavior is specified. Name tests by behavior.
 5. Implement the simplest design compatible with the ADRs.
-6. Run the complete definition of done from `ratchet.config.json` plus the task's acceptance commands. Paste summarised real output in the pull request body. Do not open the pull request if anything is red.
+6. Run the complete definition of done from `ratchet.config.json` plus the task's acceptance commands. Paste summarized real output in the pull request body. Do not open the pull request if anything is red.
 7. Classify the change: list the files changed and the risk tier they imply under `tiers` in `ratchet.config.json` (critical if any file matches a critical pattern; low if every file matches a low pattern; standard otherwise).
 8. Commit, push the branch, open the pull request with the template of `AGENTS.md`. Cite the task, requirements and ADRs.
 9. If the task hits a reserved decision, write the escalation (skill `escalate`) and finish everything that does not depend on it.

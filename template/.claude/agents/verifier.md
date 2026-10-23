@@ -1,6 +1,6 @@
 ---
 name: verifier
-description: Checks external facts the specification or a task depends on (third-party API shapes, webhook payloads, tool versions and flags, library behaviour) against official, dated sources. Use before building on any third-party behaviour.
+description: Checks external facts the specification or a task depends on (third-party API shapes, webhook payloads, tool versions and flags, library behavior) against official, dated sources. Use before building on any third-party behavior.
 tools: Read, Glob, Grep, Bash, WebFetch, WebSearch
 model: inherit
 ---

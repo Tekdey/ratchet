@@ -1,11 +1,11 @@
 export const meta = {
   name: 'run-task',
-  description: 'Run one task: implement in a worktree, review with depth set by the risk tier, refute findings with sceptics, fix loop, final gate',
+  description: 'Run one task: implement in a worktree, review with depth set by the risk tier, refute findings with skeptics, fix loop, final gate',
   whenToUse: 'For every task I<N>-T<NN> of spec/iterations/. args: { task: "I1-T03", tier?: "low" | "standard" | "critical", merge?: boolean, requireCi?: boolean, maxFixRounds?: number }',
   phases: [
     { title: 'Implement', detail: 'tests first, full definition of done, pull request opened' },
     { title: 'Review', detail: 'one or three reviewers depending on the tier' },
-    { title: 'Refute', detail: 'sceptics try to refute each finding; majority rule' },
+    { title: 'Refute', detail: 'skeptics try to refute each finding; majority rule' },
     { title: 'Fix', detail: 'implementer addresses surviving findings, bounded rounds' },
     { title: 'Gate', detail: 'review posted, definition of done confirmed, merge if approved' },
   ],
@@ -107,7 +107,7 @@ log(`PR #${impl.prNumber} on ${impl.branch}, tier ${tier}`)
 const LENSES = {
   general: 'the whole grid of AGENTS.md section 6, with equal weight',
   spec: 'specification and ADR compliance: the change does exactly what the task asks, respects every accepted ADR, and logs its deviations',
-  security: 'security and secrets: authorisation on every entry point, validated and allowlisted external input, no secret in code, logs, errors, events or payloads, audit of destructive actions, no weakening of the guardrails',
+  security: 'security and secrets: authorization on every entry point, validated and allowlisted external input, no secret in code, logs, errors, events or payloads, audit of destructive actions, no weakening of the guardrails',
   tests: 'tests and definition of done: error paths covered, nothing skipped, fixtures recorded rather than live, documentation updated, the definition of done output in the pull request is real',
 }
 const lenses = tier === 'low' ? ['general'] : ['spec', 'security', 'tests']
@@ -133,17 +133,17 @@ for (const r of reviews) {
 log(`${candidates.length} distinct findings from ${reviews.length} reviewer(s)`)
 
 // ---------------------------------------------------------------- Refute
-// low: no sceptic, every finding stands. standard: one sceptic for medium and high findings. critical: three for all.
-const sceptics = (f) => (tier === 'critical' ? 3 : tier === 'standard' && f.severity !== 'low' ? 1 : 0)
+// low: no skeptic, every finding stands. standard: one skeptic for medium and high findings. critical: three for all.
+const skeptics = (f) => (tier === 'critical' ? 3 : tier === 'standard' && f.severity !== 'low' ? 1 : 0)
 
 phase('Refute')
 const verified = await parallel(candidates.map((f) => () => {
-  const n = sceptics(f)
+  const n = skeptics(f)
   if (n === 0) return Promise.resolve({ ...f, survives: true, votes: [] })
   return parallel(Array.from({ length: n }, (_, i) => () =>
     agent(
-      `Follow .claude/agents/sceptic.md. Try to REFUTE this finding on pull request #${impl.prNumber} (task ${task}) by reading the actual code (gh pr diff ${impl.prNumber}, then the files in full). Default to refuted=true when uncertain. Finding: ${JSON.stringify(f)}`,
-      { label: `sceptic:${i + 1}:${f.file}`, phase: 'Refute', agentType: 'sceptic', schema: VERDICT_SCHEMA },
+      `Follow .claude/agents/skeptic.md. Try to REFUTE this finding on pull request #${impl.prNumber} (task ${task}) by reading the actual code (gh pr diff ${impl.prNumber}, then the files in full). Default to refuted=true when uncertain. Finding: ${JSON.stringify(f)}`,
+      { label: `skeptic:${i + 1}:${f.file}`, phase: 'Refute', agentType: 'skeptic', schema: VERDICT_SCHEMA },
     ),
   )).then((votes) => {
     const v = votes.filter(Boolean)

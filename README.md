@@ -15,8 +15,8 @@ Most methods for AI-assisted development (spec-driven toolkits, persona-based ag
 Ratchet targets a different regime: **long unattended runs**. That changes three things.
 
 1. **Rules must hold without supervision.** A rule written in a prompt is advice. A rule written as a hook that exits non-zero is a wall. Ratchet moves every rule that can be checked mechanically out of the prompt and into code: command guards, write guards, a definition of done run by scripts.
-2. **The agent must never block on a question.** When the specification is silent, the agent decides, writes the decision in an append-only log, and continues. Only a closed list of reserved decisions (money, licence, publication, deletion of user data) goes to the human, in writing, and the agent moves on to unblocked work meanwhile.
-3. **Review must be cheap to trust.** Model reviewers produce many false positives. Ratchet runs independent reviewers with distinct lenses, then asks sceptic agents to refute each finding before anyone fixes it.
+2. **The agent must never block on a question.** When the specification is silent, the agent decides, writes the decision in an append-only log, and continues. Only a closed list of reserved decisions (money, license, publication, deletion of user data) goes to the human, in writing, and the agent moves on to unblocked work meanwhile.
+3. **Review must be cheap to trust.** Model reviewers produce many false positives. Ratchet runs independent reviewers with distinct lenses, then asks skeptic agents to refute each finding before anyone fixes it.
 
 ## The method in one page
 
@@ -25,7 +25,7 @@ Ratchet targets a different regime: **long unattended runs**. That changes three
 | Specification | Vision, requirements with identifiers, architecture decision records (ADRs). The single source of truth. | `spec/` |
 | Contract | How agents work: reading order, task cycle, definition of done, review grid, reserved decisions. | `AGENTS.md` |
 | Guardrails | Hooks that block forbidden commands, secret leaks and edits to accepted ADRs, whatever the prompt says. | `.claude/hooks/` |
-| Roles | Implementer, reviewer, sceptic, security reviewer, verifier. Whoever writes never reviews. | `.claude/agents/` |
+| Roles | Implementer, reviewer, skeptic, security reviewer, verifier. Whoever writes never reviews. | `.claude/agents/` |
 | Orchestration | A deterministic script: implement, review in parallel, refute findings, fix, gate. Review depth follows the risk of the change. | `.claude/workflows/run-task.js` |
 | Memory | State file, decision log, escalations, iteration reports. A fresh session resumes from the repository, never from a conversation. | `spec/state.md`, `spec/decisions-log.md`, `spec/escalations.md` |
 
@@ -51,19 +51,24 @@ npx degit Tekdey/ratchet/template ratchet-template
 
 Then fill `ratchet.config.json` (your definition of done commands and your risk tiers), write your first ADRs in `spec/adr/`, and start a session with `/resume`. Step-by-step instructions, including adoption on an existing codebase, are in [`docs/adoption.md`](docs/adoption.md).
 
+## Planned with another method?
+
+Ratchet executes; it does not help much with writing the specification. Plan with the BMad Method, GitHub Spec Kit or your own documents, then run the skill `import-plan`: an agent converts the plan into `spec/` without inventing anything, imported ADRs stay proposed until you accept them, and `check-spec.mjs` validates the result. See [`docs/planning-handoff.md`](docs/planning-handoff.md).
+
 ## What is in this repository
 
 ```
 docs/
-  method.md        the method: principles, architecture, loop, governance, threat and cost models, limitations
-  case-study.md    one deployment, measured: 361 merged pull requests in 10 days, and what broke
-  evaluation.md    how to measure whether the method works in your project
-  adoption.md      how to install the template, on a new or an existing project
-template/          copy into the root of a project
-  AGENTS.md        the working contract (CLAUDE.md imports it)
+  method.md            the method: principles, architecture, loop, governance, threat and cost models, limitations
+  case-study.md        one deployment, measured: 361 merged pull requests in 10 days, and what broke
+  evaluation.md        how to measure whether the method works in your project
+  adoption.md          how to install the template, on a new or an existing project
+  planning-handoff.md  how to plan with another method and execute with Ratchet
+template/              copy into the root of a project
+  AGENTS.md            the working contract (CLAUDE.md imports it)
   ratchet.config.json
-  spec/            state, decision log, escalations, ADR template, iteration template
-  .claude/         agents, skills, workflow, hooks, settings
+  spec/                state, decision log, escalations, ADR template, iteration template
+  .claude/             agents, skills, workflow, hooks, settings, spec checker
 ```
 
 ## Known limitations
@@ -71,7 +76,7 @@ template/          copy into the root of a project
 These are stated up front because they are what a careful adopter needs to know first.
 
 - **One project, no control group.** The case study is an observational account of one deployment, not an experiment.
-- **Rigour competes with throughput.** In the case study, the share of merged pull requests carrying a review fell from 95 % to 15 % when the owner asked for speed. The method does not prevent its own bypass. The risk tiers in the workflow are the response to that finding; they have not been evaluated yet.
+- **Rigor competes with throughput.** In the case study, the share of merged pull requests carrying a review fell from 95 % to 15 % when the owner asked for speed. The method does not prevent its own bypass. The risk tiers in the workflow are the response to that finding; they have not been evaluated yet.
 - **Full review is expensive.** A critical-tier task can spawn dozens of agent runs. Token cost was not measured in the case study.
 - **Rule-based hooks have blind spots.** A pattern guard misses semantically equivalent commands written in an unexpected form. Hooks are a floor, not a proof; that is why they are paired with model review.
 - **The human can become the bottleneck.** In the case study, most escalations stayed open. Reserved decisions need a cadence on the human side too.
@@ -81,6 +86,6 @@ These are stated up front because they are what a careful adopter needs to know 
 
 Replications are the most valuable contribution: run the method on a project, measure it with [`docs/evaluation.md`](docs/evaluation.md), and report the numbers, including the bad ones. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-## Licence
+## License
 
 MIT. See [`LICENSE`](LICENSE).

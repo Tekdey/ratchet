@@ -25,7 +25,7 @@ The decision log is the clearest trace of the governance model at work: about fi
 
 ## Two regimes
 
-The owner changed the operating regime on day 7. Before, every task ran the full loop (three review lenses and sceptic verification). After, the owner asked for speed: merge as soon as the type check and the build pass, and defer tests and reviews to the end.
+The owner changed the operating regime on day 7. Before, every task ran the full loop (three review lenses and skeptic verification). After, the owner asked for speed: merge as soon as the type check and the build pass, and defer tests and reviews to the end.
 
 A pull request is counted as reviewed when it carries a review comment produced by the review step (a structured review with a verdict).
 

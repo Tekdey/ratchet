@@ -17,7 +17,7 @@ Input: a task identifier such as `I1-T03`. Nothing below is skipped because a ch
 
 1. `git worktree add .worktrees/<branch> -b <branch> origin/<main branch>`.
 2. Verify external facts (skill `verify-facts`).
-3. Tests first for specified behaviour; implementation; documentation.
+3. Tests first for specified behavior; implementation; documentation.
 4. The full definition of done from `ratchet.config.json`, plus the task's acceptance commands, inside the worktree. All green or no pull request.
 5. Classify the tier from the files changed and `tiers` in `ratchet.config.json`. Changes under `.claude/`, `spec/adr/` or to `ratchet.config.json` are always critical.
 6. Commit, push, open the pull request with the template of `AGENTS.md`.
@@ -27,11 +27,11 @@ Input: a task identifier such as `I1-T03`. Nothing below is skipped because a ch
 - `low`: one reviewer with the whole grid.
 - `standard` and `critical`: three reviewers with distinct lenses (specification compliance; security and secrets; tests and definition of done).
 
-## 3. Refute (agent `sceptic`)
+## 3. Refute (agent `skeptic`)
 
 - `low`: skipped.
-- `standard`: one sceptic per medium or high finding.
-- `critical`: three sceptics per finding; a finding survives when fewer than half refute it.
+- `standard`: one skeptic per medium or high finding.
+- `critical`: three skeptics per finding; a finding survives when fewer than half refute it.
 
 ## 4. Fix loop
 

@@ -56,6 +56,10 @@ At minimum:
 
 Fill the `<placeholders>` in `AGENTS.md`. `CLAUDE.md` imports it, so both stay identical.
 
+If the project was already planned with another method (the BMad Method, GitHub Spec Kit, a PRD), skip the manual writing: run the skill `import-plan` and follow [`planning-handoff.md`](planning-handoff.md).
+
+Either way, `node .claude/scripts/check-spec.mjs` must pass. It is the first command of the default definition of done.
+
 ## 4. Run
 
 Start Claude Code in the project and run `/resume`. The session-start hook prints the state; the `resume` skill reconciles it with git and open pull requests, applies decided escalations, picks the next unblocked task and runs it through the `run-task` workflow (or the `run-task` skill if you prefer a single agent loop).

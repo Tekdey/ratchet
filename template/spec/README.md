@@ -11,6 +11,7 @@ This folder is the source of truth. Code, tests, reviews and pull requests cite 
 | `decisions-log.md` | Every decision taken without a human. Append-only. |
 | `escalations.md` | Reserved decisions waiting for the human. |
 | `facts.md` | External facts verified against official sources. |
+| `archive/` | Planning documents imported from another method (skill `import-plan`). Not authoritative: `spec/` is. |
 
 ## Product in one page
 

@@ -1,5 +1,5 @@
 ---
-name: sceptic
+name: skeptic
 description: Tries to refute one review finding against the actual code of a pull request. Read-only. Used by the run-task workflow to filter false positives before any fix is made.
 tools: Read, Glob, Grep, Bash
 model: inherit
